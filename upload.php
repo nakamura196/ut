@@ -26,9 +26,17 @@ if (!file_exists($dirname)) {
     mkdir($dirname, 0755, true);
 }
 
+// ファイルが既に存在するかチェック
+$fullPath = $root . $path;
+if (file_exists($fullPath)) {
+    http_response_code(409); // コンフリクト
+    echo json_encode(["error" => "File already exists."]);
+    exit;
+}
+
 // ファイルアップロード処理
 if (isset($_FILES['media']) && is_uploaded_file($_FILES['media']['tmp_name'])) {
-    if (move_uploaded_file($_FILES['media']['tmp_name'], $root . $path)) {
+    if (move_uploaded_file($_FILES['media']['tmp_name'], $fullPath)) {
         echo json_encode(["success" => true, "message" => "File uploaded successfully."]);
     } else {
         http_response_code(500); // サーバーエラー

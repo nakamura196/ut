@@ -4,6 +4,12 @@ $expectedApiKey = 'YOUR_EXPECTED_API_KEY'; // ここに期待するAPIキーを�
 
 header('Content-Type: application/json');
 
+if ($_FILES['media']['error'] !== UPLOAD_ERR_OK) {
+    http_response_code(400); // 不正なリクエスト
+    echo json_encode(["error" => "Upload error, code: " . $_FILES['media']['error']]);
+    exit;
+}
+
 // APIキーのチェック
 if ($_POST['apiKey'] !== $expectedApiKey) {
     http_response_code(403); // 不正なアクセス

@@ -18,7 +18,7 @@ $root = "./"; // 適宜変更してください。
 $path = $_POST["path"];
 
 // パスの安全性を確認
-if (!preg_match('/^[a-zA-Z0-9\/\._-あ-んア-ン一-龥]+$/', $path)) {
+if (!preg_match('/^[a-zA-Z0-9\/\._-]+$/u', $path)) {
     http_response_code(400); // 不正なリクエスト
     echo json_encode([
         "error" => "Invalid Path",
